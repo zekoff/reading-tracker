@@ -16,7 +16,7 @@ INSERT INTO Readings (
 
 # Set up SQLite database to receive data
 db = sqlite3.connect('reading-tracker.db')
-with open('schema.sql') as schema_file:
+with open('sqlite-schema.sql') as schema_file:
     db.executescript(schema_file.read())
     db.commit()
 
