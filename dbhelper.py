@@ -15,7 +15,8 @@ LIMIT 1
 
 def get_next_reading() -> str:
     cursor = psycopg2.connect(DATABASE_URL, sslmode='require').cursor()
-    result = cursor.execute(NEXT_READING_QUERY).fetchall()
+    cursor.execute(NEXT_READING_QUERY)
+    result = cursor.fetchall()
     cursor.close()
     cursor.connection.close()
     if len(result) != 1:
