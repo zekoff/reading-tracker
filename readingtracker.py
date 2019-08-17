@@ -1,9 +1,9 @@
-import flask
+from flask import Flask, render_template
 import dbhelper
 
-application = flask.Flask(__name__)  # gunicorn looks for 'application'
+application = Flask(__name__)  # gunicorn looks for 'application'
 
 
 @application.route('/')
 def index():
-    return dbhelper.get_next_reading()
+    return render_template('index.html', passage=dbhelper.get_next_reading())
