@@ -7,7 +7,7 @@ DATABASE_URL = os.environ['DATABASE_URL']
 NEXT_READING_QUERY = """
 SELECT *
 FROM Readings
-WHERE time_min=NULL
+WHERE time_min is null
 ORDER BY original_row ASC
 LIMIT 1
 """
