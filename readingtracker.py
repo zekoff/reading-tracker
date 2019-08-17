@@ -5,7 +5,7 @@ import dbhelper
 application = Flask(__name__)  # gunicorn looks for 'application'
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-logger.addHander(logging.StreamHandler())
+logger.addHandler(logging.StreamHandler())
 
 @application.route('/')
 def index():
