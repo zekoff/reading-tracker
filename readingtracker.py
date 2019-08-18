@@ -10,7 +10,6 @@ logger.addHandler(logging.StreamHandler(sys.stdout))
 
 @application.route('/', methods=['GET', 'POST'])
 def index():
-    _, passage, week = dbhelper.get_next_reading()
     submitted_data = request.form.get('time_spent', None)
     if submitted_data is not None:
         try:
@@ -20,6 +19,7 @@ def index():
             logger.error(ex)
             submitted_data = "Error submitting data"
     logger.debug(f'Form data (if submitted): {submitted_data}')
+    _, passage, week = dbhelper.get_next_reading()
     template_vars = {
         'passage': passage,
         'week': week,
