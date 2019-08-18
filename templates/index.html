@@ -1,14 +1,34 @@
-<title>Reading Tracker</title>
-<h1>Next reading:</h1>
-<p>{{ week }}</p>
-<p>{{ passage }}</p>
-<hr />
-{% if submitted_data %}
-    <p>Recorded completion time for today's reading: {{ submitted_data }}</p>
-{% else %}
-    <p>Record completed reading:</p>
-    <form method="post">
-        <input type="number" value="Time spent reading (m)" name="time_spent" />
-        <button type="submit">Record</button>
-    </form>
-{% endif %}
+<head>
+    <title>Reading Tracker</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .pure-g > div {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .l-box {
+            padding: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="pure-g l-box">
+        <h1 class="pure-u-1">Next reading:</h1>
+        <p class="pure-u-1">{{ week }}</p>
+        <p class="pure-u-1"><strong>{{ passage }}</strong></p>
+        <hr class="pure-u-1" />
+        {% if submitted_data %}
+            <p class="pure-u-1">Recorded completion time for today's reading: {{ submitted_data }}</p>
+        {% else %}
+            <p class="pure-u-1">Record completed reading:</p>
+            <form method="post" class="pure-u-1 pure-form">
+                <fieldset>
+                    <input type="number" placeholder="Time spent reading (m)" name="time_spent" />
+                    <button type="submit" class="pure-button pure-button-primary">Record</button>
+                </fieldset>
+            </form>
+        {% endif %}
+    </div>
+</body>
