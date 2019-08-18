@@ -1,9 +1,14 @@
 <title>Reading Tracker</title>
 <h1>Next reading:</h1>
+<p>{{ week }}</p>
 <p>{{ passage }}</p>
 <hr />
-<p>Record reading:</p>
-<form action='/record_reading'>
-    <input type="number" name="time_spent" />
-    <input type="submit"/>
-</form>
+{% if submitted_data %}
+    <p>Recorded completion time for today's reading: {{ submitted_data }}</p>
+{% else %}
+    <p>Record completed reading:</p>
+    <form method="post">
+        <input type="number" value="Time spent reading (m)" name="time_spent" />
+        <button type="submit">Record</button>
+    </form>
+{% endif %}
