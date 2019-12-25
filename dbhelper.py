@@ -52,7 +52,7 @@ def get_next_reading() -> tuple:
     cursor.close()
     cursor.connection.close()
     if len(result) != 1:
-        return "Reading plan complete!"
+        return None, "Reading plan complete!", ""
     return int(result[0][0]), result[0][1], result[0][3]
 
 def get_next_reading_sqlite() -> str:
