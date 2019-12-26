@@ -19,10 +19,11 @@ def index():
             logger.error(ex)
             submitted_data = "Error submitting data"
     logger.debug(f'Form data (if submitted): {submitted_data}')
-    _, passage, week = dbhelper.get_next_reading()
+    reading_id, passage, week = dbhelper.get_next_reading()
     template_vars = {
         'passage': passage,
         'week': week,
-        'submitted_data': submitted_data
+        'submitted_data': submitted_data,
+        'accept_input': (reading_id != None)
     }
     return render_template('index.html', **template_vars)

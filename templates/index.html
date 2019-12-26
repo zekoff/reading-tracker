@@ -22,13 +22,15 @@
         {% if submitted_data %}
             <p class="pure-u-1">Recorded completion time for today's reading: {{ submitted_data }}</p>
         {% else %}
-            <p class="pure-u-1">Record completed reading:</p>
-            <form method="post" class="pure-u-1 pure-form">
-                <fieldset>
-                    <input type="number" placeholder="Time spent reading (m)" name="time_spent" />
-                    <button type="submit" class="pure-button pure-button-primary">Record</button>
-                </fieldset>
-            </form>
+            {% if accept_input %}
+                <p class="pure-u-1">Record completed reading:</p>
+                <form method="post" class="pure-u-1 pure-form">
+                    <fieldset>
+                        <input type="number" placeholder="Time spent reading (m)" name="time_spent" />
+                        <button type="submit" class="pure-button pure-button-primary">Record</button>
+                    </fieldset>
+                </form>
+            {% endif %}
         {% endif %}
     </div>
 </body>
