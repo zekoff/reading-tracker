@@ -2,20 +2,21 @@ import os
 import sqlite3
 import logging
 import psycopg2
+import datetime
 
 DATABASE_URL = os.environ['DATABASE_URL']
 
 NEXT_READING_QUERY = """
 SELECT *
-FROM Readings
-WHERE time_min is null
-ORDER BY original_row ASC
+FROM Readings2020
+WHERE completed is null
+ORDER BY reading_day ASC
 LIMIT 1
 """
 
 UPDATE_READING_STATEMENT = """
-UPDATE Readings
-SET time_min=%(time_spent)s
+UPDATE Readings2020
+SET completed=%(completed)s
 WHERE id=%(id)s
 """
 
@@ -26,7 +27,7 @@ def complete_reading(time_spent: int):
     try:
         cursor.execute(UPDATE_READING_STATEMENT, {
             'id': id,
-            'time_spent': time_spent
+            'completed': datetime.datetime.now()
         })
         success = True
     except Exception as ex:
@@ -44,7 +45,7 @@ def get_next_reading() -> tuple:
         tuple -- 3-tuple containing:
             int (id)
             str (passage)
-            str (week)
+            str (end date)
     """
     cursor = psycopg2.connect(DATABASE_URL, sslmode='require').cursor()
     cursor.execute(NEXT_READING_QUERY)
@@ -53,22 +54,4 @@ def get_next_reading() -> tuple:
     cursor.connection.close()
     if len(result) != 1:
         return None, "Reading plan complete!", ""
-    return int(result[0][0]), result[0][1], result[0][3]
-
-def get_next_reading_sqlite() -> str:
-    """Fetch next unread passage from the database.
-
-    Returns:
-        str -- next unread passage on reading plan
-    """
-    cursor = sqlite3.connect('reading-tracker.db').cursor()
-    result = cursor.execute(NEXT_READING_QUERY).fetchall()
-    cursor.close()
-    cursor.connection.close()
-    if len(result) != 1:
-        return "Reading plan complete!"
-    return result[0][1]
-
-
-if __name__ == '__main__':
-    print(get_next_reading())
+    return int(result[0][0]), result[0][1], result[0][5]

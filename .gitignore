@@ -111,3 +111,4 @@ venv.bak/
 *.csv
 # *.db
 *secret*
+pythonenv3.7

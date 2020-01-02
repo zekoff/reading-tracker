@@ -4,16 +4,18 @@ import csv
 import psycopg2
 
 INSERT_STATEMENT = '''
-INSERT INTO Readings (
+INSERT INTO Readings2020 (
     passage,
-    time_min,
+    reading_day,
     week,
-    original_row
+    start_day,
+    end_day
 ) VALUES (
     %(passage)s,
-    %(time_min)s,
+    %(reading_day)s,
     %(week)s,
-    %(original_row)s
+    %(start_day)s,
+    %(end_day)s
 )'''
 
 
@@ -29,21 +31,15 @@ with open('postgres-schema.sql') as schema_file:
 for statement in [s.strip() for s in sql_statements if len(s) > 0]:
     cursor.execute(statement)
 
-with open('reading-tracker.csv') as csv_file:
+with open('2020-bible-reading-input-data.csv') as csv_file:
     csv_data = csv.DictReader(csv_file)
-    current_week = None
     for row_number, data in enumerate(csv_data):
-        # Spreadsheet uses merged cells in Dates column; account for that
-        if data['Dates']:
-            current_week = data['Dates']
-        time_spent = data['Time spent (m)']
-        if len(time_spent) == 0:
-            time_spent = None
         insert_dict = {
             'passage': data['Passages'],
-            'time_min': time_spent,
-            'week': current_week,
-            'original_row': row_number + 2
+            'reading_day': data['Reading Day'],
+            'week': data['Week'],
+            'start_day': data['Start Date'],
+            'end_day': data['End Date']
         }
         cursor.execute(INSERT_STATEMENT, insert_dict)
 db.commit()
