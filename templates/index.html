@@ -20,13 +20,12 @@
         <p class="pure-u-1"><strong>{{ passage }}</strong></p>
         <hr class="pure-u-1" />
         {% if submitted_data %}
-            <p class="pure-u-1">Recorded completion time for today's reading: {{ submitted_data }}</p>
+            <p class="pure-u-1">Reading complete for today.</p>
         {% else %}
             {% if accept_input %}
                 <p class="pure-u-1">Record completed reading:</p>
                 <form method="post" class="pure-u-1 pure-form">
                     <fieldset>
-                        <input type="number" placeholder="Time spent reading (m)" name="time_spent" />
                         <button type="submit" class="pure-button pure-button-primary">Record</button>
                     </fieldset>
                 </form>

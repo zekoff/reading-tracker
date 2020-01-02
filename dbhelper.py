@@ -20,7 +20,7 @@ SET completed=%(completed)s
 WHERE id=%(id)s
 """
 
-def complete_reading(time_spent: int):
+def complete_reading():
     id, _, _ = get_next_reading()
     cursor = psycopg2.connect(DATABASE_URL, sslmode='require').cursor()
     success = False
@@ -45,7 +45,7 @@ def get_next_reading() -> tuple:
         tuple -- 3-tuple containing:
             int (id)
             str (passage)
-            str (end date)
+            str (dates)
     """
     cursor = psycopg2.connect(DATABASE_URL, sslmode='require').cursor()
     cursor.execute(NEXT_READING_QUERY)
@@ -54,4 +54,5 @@ def get_next_reading() -> tuple:
     cursor.connection.close()
     if len(result) != 1:
         return None, "Reading plan complete!", ""
-    return int(result[0][0]), result[0][1], result[0][5]
+    dates = " to ".join([result[0][4], result[0][5]])
+    return int(result[0][0]), result[0][1], dates
