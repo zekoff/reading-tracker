@@ -6,5 +6,6 @@ CREATE TABLE Readings2020 (
     reading_day INTEGER,
     week INTEGER,
     start_day TEXT,
-    end_day TEXT
+    end_day TEXT,
+    completed TEXT
 );
