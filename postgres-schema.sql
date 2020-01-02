@@ -1,9 +1,10 @@
-DROP TABLE IF EXISTS Readings;
+DROP TABLE IF EXISTS Readings2020;
 
-CREATE TABLE Readings (
+CREATE TABLE Readings2020 (
     id SERIAL PRIMARY KEY,
     passage TEXT,
-    time_min INTEGER,
-    week TEXT,
-    original_row INTEGER
+    reading_day INTEGER,
+    week INTEGER,
+    start_day TEXT,
+    end_day TEXT
 );
