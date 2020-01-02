@@ -2,20 +2,21 @@ import os
 import sqlite3
 import logging
 import psycopg2
+import datetime
 
 DATABASE_URL = os.environ['DATABASE_URL']
 
 NEXT_READING_QUERY = """
 SELECT *
-FROM Readings
+FROM Readings2020
 WHERE completed is null
 ORDER BY reading_day ASC
 LIMIT 1
 """
 
 UPDATE_READING_STATEMENT = """
-UPDATE Readings
-SET completed="X"
+UPDATE Readings2020
+SET completed=%(completed)s
 WHERE id=%(id)s
 """
 
@@ -25,7 +26,8 @@ def complete_reading(time_spent: int):
     success = False
     try:
         cursor.execute(UPDATE_READING_STATEMENT, {
-            'id': id
+            'id': id,
+            'completed': datetime.datetime.now()
         })
         success = True
     except Exception as ex:
@@ -53,6 +55,3 @@ def get_next_reading() -> tuple:
     if len(result) != 1:
         return None, "Reading plan complete!", ""
     return int(result[0][0]), result[0][1], result[0][5]
-
-if __name__ == '__main__':
-    print(get_next_reading())
