@@ -10,15 +10,13 @@ logger.addHandler(logging.StreamHandler(sys.stdout))
 
 @application.route('/', methods=['GET', 'POST'])
 def index():
-    submitted_data = request.form.get('time_spent', None)
-    if submitted_data is not None:
+    submitted_data = False
+    if request.method == 'POST':
         try:
-            submitted_data = int(submitted_data)
-            dbhelper.complete_reading(submitted_data)
+            dbhelper.complete_reading()
+            submitted_data = True
         except Exception as ex:
             logger.error(ex)
-            submitted_data = "Error submitting data"
-    logger.debug(f'Form data (if submitted): {submitted_data}')
     reading_id, passage, week = dbhelper.get_next_reading()
     template_vars = {
         'passage': passage,
