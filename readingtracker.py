@@ -25,3 +25,21 @@ def index():
         'accept_input': (reading_id != None)
     }
     return render_template('index.html', **template_vars)
+
+@application.route('/lauren', methods=['GET', 'POST'])
+def lauren():
+    submitted_data = False
+    if request.method == 'POST':
+        try:
+            dbhelper.complete_reading('lauren')
+            submitted_data = True
+        except Exception as ex:
+            logger.error(ex)
+    reading_id, passage, week = dbhelper.get_next_reading('lauren')
+    template_vars = {
+        'passage': passage,
+        'week': week,
+        'submitted_data': submitted_data,
+        'accept_input': (reading_id != None)
+    }
+    return render_template('lauren.html', **template_vars)

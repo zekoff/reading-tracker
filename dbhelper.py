@@ -8,24 +8,24 @@ DATABASE_URL = os.environ['DATABASE_URL']
 
 NEXT_READING_QUERY = """
 SELECT *
-FROM Readings2020
+FROM Readings2020{}
 WHERE completed is null
 ORDER BY reading_day ASC
 LIMIT 1
 """
 
 UPDATE_READING_STATEMENT = """
-UPDATE Readings2020
+UPDATE Readings2020{}
 SET completed=%(completed)s
 WHERE id=%(id)s
 """
 
-def complete_reading():
-    id, _, _ = get_next_reading()
+def complete_reading(db_tag=''):
+    id, _, _ = get_next_reading(db_tag)
     cursor = psycopg2.connect(DATABASE_URL, sslmode='require').cursor()
     success = False
     try:
-        cursor.execute(UPDATE_READING_STATEMENT, {
+        cursor.execute(UPDATE_READING_STATEMENT.format(db_tag), {
             'id': id,
             'completed': datetime.datetime.now()
         })
@@ -38,7 +38,7 @@ def complete_reading():
     if not success:
         raise Exception('Error updating row in DB with completed reading')
 
-def get_next_reading() -> tuple:
+def get_next_reading(db_tag='') -> tuple:
     """Return next unread passage from postgres
     
     Returns:
@@ -48,7 +48,7 @@ def get_next_reading() -> tuple:
             str (dates)
     """
     cursor = psycopg2.connect(DATABASE_URL, sslmode='require').cursor()
-    cursor.execute(NEXT_READING_QUERY)
+    cursor.execute(NEXT_READING_QUERY.format(db_tag))
     result = cursor.fetchall()
     cursor.close()
     cursor.connection.close()
