@@ -1,0 +1,35 @@
+<head>
+    <title>Lauren's Reading Tracker</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .pure-g > div {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .l-box {
+            padding: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="pure-g l-box">
+        <h1 class="pure-u-1">Lauren's next reading:</h1>
+        <p class="pure-u-1">{{ week }}</p>
+        <p class="pure-u-1"><strong>{{ passage }}</strong></p>
+        <hr class="pure-u-1" />
+        {% if submitted_data %}
+            <p class="pure-u-1">Reading complete for today.</p>
+        {% else %}
+            {% if accept_input %}
+                <p class="pure-u-1">Record completed reading:</p>
+                <form method="post" class="pure-u-1 pure-form" action="/lauren">
+                    <fieldset>
+                        <button type="submit" class="pure-button pure-button-primary">Record</button>
+                    </fieldset>
+                </form>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
